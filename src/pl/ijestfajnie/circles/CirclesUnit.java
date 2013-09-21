@@ -1,6 +1,8 @@
 package pl.ijestfajnie.circles;
 
-public class CirclesUnit {
+import javax.swing.JFrame;
+
+public class CirclesUnit extends JFrame {
 	
 	private int currentPointer = 0;
 	private final String[] cartridge;
@@ -62,6 +64,56 @@ public class CirclesUnit {
 			case CircleCommands.CMD_BCK:
 				int tobck = Integer.parseInt("0b" + cartridge[++currentPointer]);
 				currentPointer -= tobck;
+				break;
+			case CircleCommands.CMD_CHK:
+				int chktype = Integer.parseInt("0b" + cartridge[++currentPointer]);
+				int onecell = Integer.parseInt("0b" + cartridge[++currentPointer]);
+				int onevalu = memory[onecell];
+				int twocell = Integer.parseInt("0b" + cartridge[++currentPointer]);
+				int twovalu = memory[twocell];
+				if (chktype == Integer.parseInt("0b" + CircleCommands.ConditionType.CND_EQL)) {
+					if (onevalu == twovalu) {
+						currentPointer++;
+					} else {
+						int toskip = Integer.parseInt("0b" + cartridge[++currentPointer]);
+						currentPointer += toskip;
+					}
+				} else if (chktype == Integer.parseInt("0b" + CircleCommands.ConditionType.CND_MOR)) {
+					if (onevalu > twovalu) {
+						currentPointer++;
+					} else {
+						int toskip = Integer.parseInt("0b" + cartridge[++currentPointer]);
+						currentPointer += toskip;
+					}
+				} else if (chktype == Integer.parseInt("0b" + CircleCommands.ConditionType.CND_LES)) {
+					if (onevalu < twovalu) {
+						currentPointer++;
+					} else {
+						int toskip = Integer.parseInt("0b" + cartridge[++currentPointer]);
+						currentPointer += toskip;
+					}
+				} else if (chktype == Integer.parseInt("0b" + CircleCommands.ConditionType.CND_MOE)) {
+					if (onevalu >= twovalu) {
+						currentPointer++;
+					} else {
+						int toskip = Integer.parseInt("0b" + cartridge[++currentPointer]);
+						currentPointer += toskip;
+					}
+				} else if (chktype == Integer.parseInt("0b" + CircleCommands.ConditionType.CND_LOE)) {
+					if (onevalu <= twovalu) {
+						currentPointer++;
+					} else {
+						int toskip = Integer.parseInt("0b" + cartridge[++currentPointer]);
+						currentPointer += toskip;
+					}
+				} else if (chktype == Integer.parseInt("0b" + CircleCommands.ConditionType.CND_NOT)) {
+					if (onevalu != twovalu) {
+						currentPointer++;
+					} else {
+						int toskip = Integer.parseInt("0b" + cartridge[++currentPointer]);
+						currentPointer += toskip;
+					}
+				}
 				break;
 			default:
 				System.exit(4);
