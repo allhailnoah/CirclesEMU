@@ -35,7 +35,7 @@ public class GraphicsProcessingUnit extends JFrame implements Runnable {
 			for (int x = 0; x < 8; x++) {
 				for (int y = 0; y < 8; y++) {
 					int cellId = x*8 + y;
-					System.out.print(Integer.toBinaryString(video_ram[cellId]));
+					//System.out.print(Integer.toBinaryString(video_ram[cellId]));
 					if (video_ram[cellId] > 0) {
 						g.setColor(Color.black);
 						g.fillRect(x*100, y*100, 100, 100);
@@ -44,9 +44,9 @@ public class GraphicsProcessingUnit extends JFrame implements Runnable {
 						g.fillRect(x*100, y*100, 100, 100);
 					}
 				}
-				System.out.println();
+				//System.out.println();
 			}
-			System.out.println();
+			//System.out.println();
 		}
 	}
 
@@ -55,7 +55,6 @@ public class GraphicsProcessingUnit extends JFrame implements Runnable {
 	public void run() {
 		while(true) {
 			repaint();
-			System.out.println("test");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
