@@ -2,6 +2,7 @@ package pl.ijestfajnie.circles;
 
 import javax.swing.JFrame;
 
+@SuppressWarnings("serial")
 public class CirclesUnit extends JFrame {
 	
 	private int currentPointer = 0;
@@ -11,13 +12,13 @@ public class CirclesUnit extends JFrame {
 	private byte[] screenmemory;
 
 	public CirclesUnit(String[] cartridge) {
-		memory = new byte[16];
-		for (byte bt: memory) {
-			bt = 0;
+		memory = new byte[64];
+		for (int i = 0; i < memory.length; i++) {
+			memory[i] = 0;
 		}
-		screenmemory = new byte[16];
-		for (byte bt: screenmemory) {
-			bt = 0;
+		screenmemory = new byte[64];
+		for (int i = 0; i < screenmemory.length; i++) {
+			screenmemory[i] = 0;
 		}
 		this.cartridge = cartridge;
 		for (; currentPointer < cartridge.length; currentPointer++) {
@@ -26,97 +27,98 @@ public class CirclesUnit extends JFrame {
 	}
 	
 	public void parse() {
+		System.out.println("Parsing");
 		switch (cartridge[currentPointer]) {
 			case CircleCommands.CMD_ADD:
-				int toadd = Integer.parseInt("0b" + cartridge[++currentPointer]);
-				int pointer1 = Integer.parseInt("0b" + ++currentPointer);
+				int toadd = Integer.parseInt(cartridge[++currentPointer], 2);
+				int pointer1 = Integer.parseInt(cartridge[++currentPointer], 2);
 				memory[pointer1] += toadd;
 				break;
 			case CircleCommands.CMD_SUB:
-				int tosub = Integer.parseInt("0b" + cartridge[++currentPointer]);
-				int pointer2 = Integer.parseInt("0b" + ++currentPointer);
+				int tosub = Integer.parseInt(cartridge[++currentPointer], 2);
+				int pointer2 = Integer.parseInt(cartridge[++currentPointer], 2);
 				memory[pointer2] -= tosub;
 				break;
 			case CircleCommands.CMD_SET:
-				int toset = Integer.parseInt("0b" + cartridge[++currentPointer]);
-				int pointer3 = Integer.parseInt("0b" + ++currentPointer);
+				int toset = Integer.parseInt(cartridge[++currentPointer], 2);
+				int pointer3 = Integer.parseInt(cartridge[++currentPointer], 2);
 				memory[pointer3] = (byte) toset;
 				break;
 			case CircleCommands.CMD_SAD:
-				int tosad = Integer.parseInt("0b" + cartridge[++currentPointer]);
-				int pointer4 = Integer.parseInt("0b" + ++currentPointer);
-				memory[pointer4] += tosad;
+				int tosad = Integer.parseInt(cartridge[++currentPointer], 2);
+				int pointer4 = Integer.parseInt(cartridge[++currentPointer], 2);
+				screenmemory[pointer4] += tosad;
 				break;
 			case CircleCommands.CMD_SSU:
-				int tossu = Integer.parseInt("0b" + cartridge[++currentPointer]);
-				int pointer5 = Integer.parseInt("0b" + ++currentPointer);
-				memory[pointer5] -= tossu;
+				int tossu = Integer.parseInt(cartridge[++currentPointer], 2);
+				int pointer5 = Integer.parseInt(cartridge[++currentPointer], 2);
+				screenmemory[pointer5] -= tossu;
 				break;
 			case CircleCommands.CMD_SST:
-				int tosst = Integer.parseInt("0b" + cartridge[++currentPointer]);
-				int pointer6 = Integer.parseInt("0b" + ++currentPointer);
-				memory[pointer6] = (byte) tosst;
+				int tosst = Integer.parseInt(cartridge[++currentPointer], 2);
+				int pointer6 = Integer.parseInt(cartridge[++currentPointer], 2);
+				screenmemory[pointer6] = (byte) tosst;
 				break;
 			case CircleCommands.CMD_FWD:
-				int tofwd = Integer.parseInt("0b" + cartridge[++currentPointer]);
+				int tofwd = Integer.parseInt(cartridge[++currentPointer], 2);
 				currentPointer += tofwd;
 				break;
 			case CircleCommands.CMD_BCK:
-				int tobck = Integer.parseInt("0b" + cartridge[++currentPointer]);
+				int tobck = Integer.parseInt(cartridge[++currentPointer], 2);
 				currentPointer -= tobck;
 				break;
 			case CircleCommands.CMD_CHK:
-				int chktype = Integer.parseInt("0b" + cartridge[++currentPointer]);
-				int onecell = Integer.parseInt("0b" + cartridge[++currentPointer]);
+				int chktype = Integer.parseInt(cartridge[++currentPointer], 2);
+				int onecell = Integer.parseInt(cartridge[++currentPointer], 2);
 				int onevalu = memory[onecell];
-				int twocell = Integer.parseInt("0b" + cartridge[++currentPointer]);
+				int twocell = Integer.parseInt(cartridge[++currentPointer], 2);
 				int twovalu = memory[twocell];
-				if (chktype == Integer.parseInt("0b" + CircleCommands.ConditionType.CND_EQL)) {
+				if (chktype == Integer.parseInt(CircleCommands.ConditionType.CND_EQL, 2)) {
 					if (onevalu == twovalu) {
 						currentPointer++;
 					} else {
-						int toskip = Integer.parseInt("0b" + cartridge[++currentPointer]);
+						int toskip = Integer.parseInt(cartridge[++currentPointer], 2);
 						currentPointer += toskip;
 					}
-				} else if (chktype == Integer.parseInt("0b" + CircleCommands.ConditionType.CND_MOR)) {
+				} else if (chktype == Integer.parseInt(CircleCommands.ConditionType.CND_MOR, 2)) {
 					if (onevalu > twovalu) {
 						currentPointer++;
 					} else {
-						int toskip = Integer.parseInt("0b" + cartridge[++currentPointer]);
+						int toskip = Integer.parseInt(cartridge[++currentPointer], 2);
 						currentPointer += toskip;
 					}
-				} else if (chktype == Integer.parseInt("0b" + CircleCommands.ConditionType.CND_LES)) {
+				} else if (chktype == Integer.parseInt(CircleCommands.ConditionType.CND_LES, 2)) {
 					if (onevalu < twovalu) {
 						currentPointer++;
 					} else {
-						int toskip = Integer.parseInt("0b" + cartridge[++currentPointer]);
+						int toskip = Integer.parseInt(cartridge[++currentPointer], 2);
 						currentPointer += toskip;
 					}
-				} else if (chktype == Integer.parseInt("0b" + CircleCommands.ConditionType.CND_MOE)) {
+				} else if (chktype == Integer.parseInt(CircleCommands.ConditionType.CND_MOE, 2)) {
 					if (onevalu >= twovalu) {
 						currentPointer++;
 					} else {
-						int toskip = Integer.parseInt("0b" + cartridge[++currentPointer]);
+						int toskip = Integer.parseInt(cartridge[++currentPointer], 2);
 						currentPointer += toskip;
 					}
-				} else if (chktype == Integer.parseInt("0b" + CircleCommands.ConditionType.CND_LOE)) {
+				} else if (chktype == Integer.parseInt(CircleCommands.ConditionType.CND_LOE, 2)) {
 					if (onevalu <= twovalu) {
 						currentPointer++;
 					} else {
-						int toskip = Integer.parseInt("0b" + cartridge[++currentPointer]);
+						int toskip = Integer.parseInt(cartridge[++currentPointer], 2);
 						currentPointer += toskip;
 					}
-				} else if (chktype == Integer.parseInt("0b" + CircleCommands.ConditionType.CND_NOT)) {
+				} else if (chktype == Integer.parseInt(CircleCommands.ConditionType.CND_NOT, 2)) {
 					if (onevalu != twovalu) {
 						currentPointer++;
 					} else {
-						int toskip = Integer.parseInt("0b" + cartridge[++currentPointer]);
+						int toskip = Integer.parseInt(cartridge[++currentPointer], 2);
 						currentPointer += toskip;
 					}
 				}
 				break;
 			default:
-				System.exit(4);
+				DebugManager.debug(4);
 				break;
 		}
 	}

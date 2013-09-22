@@ -3,10 +3,13 @@
  */
 package pl.ijestfajnie.circles;
 
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author michcioperz
@@ -19,11 +22,20 @@ public class CirclesEmulator {
 	/**
 	 * 
 	 */
-	public CirclesEmulator(File file) {
+	public CirclesEmulator(FileInputStream file) {
+		BufferedReader bfr = new BufferedReader(new InputStreamReader(file));
+		List<String> strr = new ArrayList<String>();
+		String line = "";
 		try {
-			cartridge  = (String[]) Files.readAllLines(file.toPath(), Charset.defaultCharset()).toArray();
+			while ((line = bfr.readLine()) != null) {
+				strr.add(line);
+			}
 		} catch (IOException e) {
-			System.exit(5);
+			DebugManager.debug(5);
+		}
+		cartridge = new String[strr.size()];
+		for (int i = 0; i < strr.size(); i++) {
+			cartridge[i] = strr.get(i);
 		}
 		new CirclesUnit(cartridge);
 	}
@@ -32,10 +44,14 @@ public class CirclesEmulator {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		if (args.length > 0) {
-			new CirclesEmulator(new File(args[0]));
-		} else {
-			new CirclesEmulator(new File("cartri.dge"));
+		try {
+			if (args.length > 0) {
+				new CirclesEmulator(new FileInputStream(args[0]));
+			} else {
+				new CirclesEmulator(new FileInputStream("cartri.dge"));
+			}
+		} catch (FileNotFoundException fnf) {
+			DebugManager.debug(3);
 		}
 	}
 
