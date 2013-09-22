@@ -5,7 +5,7 @@ import pl.ijestfajnie.circles.DebugManager;
 
 public class MichieASM {
 	
-	public static void parse(int process_id, String[] cartridge, int currentPointer) {
+	public static int parse(int process_id, String[] cartridge, int currentPointer) {
 		switch (cartridge[currentPointer]) {
 			case CircleCommands.CMD_ADD:
 				int toadd = Integer.parseInt(cartridge[++currentPointer], 2);
@@ -119,6 +119,6 @@ public class MichieASM {
 				DebugManager.debug(4);
 				break;
 		}
+		return currentPointer;
 	}
-
 }

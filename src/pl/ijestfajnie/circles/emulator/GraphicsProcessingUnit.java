@@ -54,6 +54,7 @@ public class GraphicsProcessingUnit extends JFrame implements Runnable {
 	@Override
 	public void run() {
 		repaint();
+		System.out.println("test");
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {

@@ -29,7 +29,7 @@ public class Process implements Runnable {
 	public void run() {
 		currentStatus = PROCESS_STATUS.RUNNING;
 		for (; currentPointer < cartridge.length; currentPointer++) {
-			MichieASM.parse(id, cartridge, currentPointer);
+			currentPointer = MichieASM.parse(id, cartridge, currentPointer);
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
