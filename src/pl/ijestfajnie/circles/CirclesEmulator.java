@@ -3,6 +3,7 @@
  */
 package pl.ijestfajnie.circles;
 
+import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,6 +11,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  * @author michcioperz
@@ -37,7 +41,12 @@ public class CirclesEmulator {
 		for (int i = 0; i < strr.size(); i++) {
 			cartridge[i] = strr.get(i);
 		}
-		new CirclesUnit(cartridge);
+		CirclesUnit cu = new CirclesUnit(cartridge);
+        cu.setResizable(false);
+        cu.setLocationRelativeTo(null);
+        cu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        cu.setVisible(true);
+        cu.run();
 	}
 
 	/**

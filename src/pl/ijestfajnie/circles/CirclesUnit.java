@@ -1,9 +1,14 @@
 package pl.ijestfajnie.circles;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class CirclesUnit extends JFrame {
+public class CirclesUnit extends JFrame implements Runnable {
 	
 	private int currentPointer = 0;
 	private final String[] cartridge;
@@ -12,6 +17,12 @@ public class CirclesUnit extends JFrame {
 	private byte[] screenmemory;
 
 	public CirclesUnit(String[] cartridge) {
+		super("Circles Emulator");
+		this.setPreferredSize(new Dimension(800, 800));
+        this.setMinimumSize(new Dimension(800, 800));
+        this.setMaximumSize(new Dimension(800, 800));
+        this.add(new CirclesPanel());
+        this.pack();
 		memory = new byte[64];
 		for (int i = 0; i < memory.length; i++) {
 			memory[i] = 0;
@@ -21,13 +32,29 @@ public class CirclesUnit extends JFrame {
 			screenmemory[i] = 0;
 		}
 		this.cartridge = cartridge;
-		for (; currentPointer < cartridge.length; currentPointer++) {
-			parse();
+	}
+	public class CirclesPanel extends JPanel {
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			for (int x = 0; x < 8; x++) {
+				for (int y = 0; y < 8; y++) {
+					int cellId = x*8 + y;
+					System.out.print(screenmemory[cellId]);
+					if (screenmemory[cellId] > 0) {
+						g.setColor(Color.black);
+						g.fillRect(x*100, y*100, 100, 100);
+					} else {
+						g.setColor(Color.white);
+						g.fillRect(x*100, y*100, 100, 100);
+					}
+				}
+				System.out.println();
+			}
+			System.out.println();
 		}
 	}
 	
 	public void parse() {
-		System.out.println("Parsing");
 		switch (cartridge[currentPointer]) {
 			case CircleCommands.CMD_ADD:
 				int toadd = Integer.parseInt(cartridge[++currentPointer], 2);
@@ -120,6 +147,21 @@ public class CirclesUnit extends JFrame {
 			default:
 				DebugManager.debug(4);
 				break;
+		}
+	}
+
+
+	@Override
+	public void run() {
+		for (; currentPointer < cartridge.length; currentPointer++) {
+			parse();
+			repaint();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
