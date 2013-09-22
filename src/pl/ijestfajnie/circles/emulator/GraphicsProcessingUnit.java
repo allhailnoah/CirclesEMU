@@ -12,7 +12,7 @@ public class GraphicsProcessingUnit extends JFrame implements Runnable {
 	
 	//Quite small, but results in compatibility with older models
 	public int MAX_BYTES = 64;
-	public int[] video_ram = new int[MAX_BYTES];
+	public char[] video_ram = new char[MAX_BYTES];
 	
 	//Start the GPU
 	public GraphicsProcessingUnit() {
@@ -35,7 +35,6 @@ public class GraphicsProcessingUnit extends JFrame implements Runnable {
 			for (int x = 0; x < 8; x++) {
 				for (int y = 0; y < 8; y++) {
 					int cellId = x*8 + y;
-					System.out.println(video_ram[cellId]);
 					System.out.print(Integer.toBinaryString(video_ram[cellId]));
 					if (video_ram[cellId] > 0) {
 						g.setColor(Color.black);

@@ -22,7 +22,7 @@ public class RAMDriver extends Driver {
 		// TODO Auto-generated method stub
 	}
 	
-	public RAM_RESULT SetRam(int index, int value) {
+	public RAM_RESULT SetRam(int index, char value) {
 		if(index < 0 || index > ram.MAX_BYTES - 1) {
 			return RAM_RESULT.INDEX_OUT_OF_BOUNDS;
 		}
@@ -30,7 +30,7 @@ public class RAMDriver extends Driver {
 		return RAM_RESULT.OK;
 	}
 	
-	public int GetRam(int index) {
+	public char GetRam(int index) {
 		if(index < 0 || index > ram.MAX_BYTES - 1) {
 			return 255;
 		}
@@ -38,7 +38,7 @@ public class RAMDriver extends Driver {
 	}
 	
 	public RAM_RESULT AllocatePages(int processId, int bytes) {
-		if(!((ram.flags_register & Integer.parseInt("00000001", 2)) == Integer.parseInt("00000001", 2))) {
+		if(!((ram.flags_register & 0x1) == 0x1)) {
 			return RAM_RESULT.KERNEL_MODE_ERROR;
 		}
 		if(bytes < 0 || bytes > ram.MAX_BYTES - 1 || bytes > ram.free_pages) {

@@ -9,7 +9,7 @@ public class GraphicsDriver extends Driver {
 	private GraphicsProcessingUnit gpu;
 	
 	public enum GRAPHICS_RESULT {
-		OK, INDEX_OUT_OF_BOUNDS, INVALID_VALUE, GPU_NOT_FOUND;
+		OK, INDEX_OUT_OF_BOUNDS, VALUE_TOO_HIGH, GPU_NOT_FOUND;
 	}
 	
 	@Override
@@ -30,21 +30,15 @@ public class GraphicsDriver extends Driver {
 		// TODO Auto-generated method stub
 	}
 	
-	public GRAPHICS_RESULT SetVideoRam(int index, int value) {
-		System.out.println("Value: " + value + ", index: " + index);
+	public GRAPHICS_RESULT SetVideoRam(int index, char value) {
 		if(index < 0 || index > gpu.MAX_BYTES - 1) {
 			return GRAPHICS_RESULT.INDEX_OUT_OF_BOUNDS;
-		}
-		if(value > 254) {
-			return GRAPHICS_RESULT.INVALID_VALUE;
-		} else if(value < 0) {
-			return GRAPHICS_RESULT.INVALID_VALUE;
 		}
 		gpu.video_ram[index] = value;
 		return GRAPHICS_RESULT.OK;
 	}
 	
-	public int GetVideoRam(int index) {
+	public char GetVideoRam(int index) {
 		if(index < 0 || index > gpu.MAX_BYTES - 1) {
 			return 255;
 		}

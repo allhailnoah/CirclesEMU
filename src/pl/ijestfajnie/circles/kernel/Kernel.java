@@ -73,7 +73,7 @@ public class Kernel {
 		if(call.equalsIgnoreCase("setram")) {
 			RAMDriver ramDriver = (RAMDriver)kernel.GetDriver(RAMDriver.class);
 			if(!(ramDriver.GetFlags(Integer.parseInt("00000001", 2)) == Integer.parseInt("00000001", 2))) {
-				return ramDriver.SetRam(Integer.parseInt(args[0]), Integer.parseInt((args[1])));
+				return ramDriver.SetRam(Integer.parseInt(args[0]), (char)Integer.parseInt((args[1])));
 			} else {
 				return RAM_RESULT.KERNEL_MODE_ERROR;
 			}
@@ -81,7 +81,7 @@ public class Kernel {
 			GraphicsDriver graphicsDriver = (GraphicsDriver)kernel.GetDriver(GraphicsDriver.class);
 			RAMDriver ramDriver = (RAMDriver)kernel.GetDriver(RAMDriver.class);
 			if(!(ramDriver.GetFlags(Integer.parseInt("00000001", 2)) == Integer.parseInt("00000001", 2))) {
-				return graphicsDriver.SetVideoRam(Integer.parseInt(args[0]), Integer.parseInt((args[1])));
+				return graphicsDriver.SetVideoRam(Integer.parseInt(args[0]), (char)Integer.parseInt((args[1])));
 			} else {
 				return RAM_RESULT.KERNEL_MODE_ERROR;
 			}
