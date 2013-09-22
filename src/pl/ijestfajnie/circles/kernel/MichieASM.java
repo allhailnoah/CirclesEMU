@@ -52,6 +52,7 @@ public class MichieASM {
 			case CircleCommands.CMD_SST:
 				int tosst = Integer.parseInt(cartridge[++currentPointer], 2);
 				int pointer6 = Integer.parseInt(cartridge[++currentPointer], 2);
+				System.out.println("tosst: " + tosst);
 				String[] args10 = {String.valueOf(pointer6), String.valueOf(tosst)};
 				/*System.out.println(*/Kernel.SystemCall("setvideoram", args10)/*)*/;
 				break;
