@@ -38,7 +38,7 @@ public class MichieASM {
 				int value3 = Kernel.SystemCallValue("getram", args6);
 				value3 += tosad;
 				String[] args7 = {String.valueOf(pointer4), String.valueOf(value3)};
-				Kernel.SystemCall("setram", args7);
+				Kernel.SystemCall("setvideoram", args7);
 				break;
 			case CircleCommands.CMD_SSU:
 				int tossu = Integer.parseInt(cartridge[++currentPointer], 2);
@@ -47,13 +47,13 @@ public class MichieASM {
 				int value4 = Kernel.SystemCallValue("getram", args8);
 				value4 += tossu;
 				String[] args9 = {String.valueOf(pointer5), String.valueOf(value4)};
-				Kernel.SystemCall("setram", args9);
+				Kernel.SystemCall("setvideoram", args9);
 				break;
 			case CircleCommands.CMD_SST:
 				int tosst = Integer.parseInt(cartridge[++currentPointer], 2);
 				int pointer6 = Integer.parseInt(cartridge[++currentPointer], 2);
 				String[] args10 = {String.valueOf(pointer6), String.valueOf(tosst)};
-				Kernel.SystemCall("setram", args10);
+				/*System.out.println(*/Kernel.SystemCall("setvideoram", args10)/*)*/;
 				break;
 			case CircleCommands.CMD_FWD:
 				int tofwd = Integer.parseInt(cartridge[++currentPointer], 2);

@@ -22,7 +22,7 @@ public class RAMDriver extends Driver {
 		// TODO Auto-generated method stub
 	}
 	
-	public RAM_RESULT SetRam(int index, byte value) {
+	public RAM_RESULT SetRam(int index, char value) {
 		if(index < 0 || index > ram.MAX_BYTES - 1) {
 			return RAM_RESULT.INDEX_OUT_OF_BOUNDS;
 		}
@@ -30,15 +30,15 @@ public class RAMDriver extends Driver {
 		return RAM_RESULT.OK;
 	}
 	
-	public byte GetRam(int index) {
+	public char GetRam(int index) {
 		if(index < 0 || index > ram.MAX_BYTES - 1) {
-			return -1;
+			return 255;
 		}
 		return ram.ram[index];
 	}
 	
 	public RAM_RESULT AllocatePages(int processId, int bytes) {
-		if(!((ram.flags_register & 0x00000001) == 0x00000001)) {
+		if(!((ram.flags_register & 0x1) == 0x1)) {
 			return RAM_RESULT.KERNEL_MODE_ERROR;
 		}
 		if(bytes < 0 || bytes > ram.MAX_BYTES - 1 || bytes > ram.free_pages) {
@@ -48,11 +48,11 @@ public class RAMDriver extends Driver {
 		return RAM_RESULT.OK;
 	}
 	
-	public void SetFlagsPositive(byte flags) {
+	public void SetFlagsPositive(char flags) {
 		ram.flags_register |= flags;
 	}
 
-	public void SetFlagsNegative(byte flags) {
+	public void SetFlagsNegative(char flags) {
 		ram.flags_register &= flags;
 	}
 	

@@ -47,7 +47,7 @@ public class Kernel {
 	public void RunProcess(FileInputStream file) {
 		String[] cartridge = ReadCartridge(file);
 		processes.add(new Process(processes.size() + 1, cartridge));
-		processes.get(processes.size() - 1).run();
+		new Thread(processes.get(processes.size() - 1)).start();
 	}
 	
 	private String[] ReadCartridge(FileInputStream file) {
@@ -72,8 +72,18 @@ public class Kernel {
 	public static Enum<?> SystemCall(String call, String[] args) {
 		if(call.equalsIgnoreCase("setram")) {
 			RAMDriver ramDriver = (RAMDriver)kernel.GetDriver(RAMDriver.class);
-			if(ramDriver.GetFlags(0x00000001) == 0x00000000) {
-				return ramDriver.SetRam(Integer.parseInt(args[0]), (byte)Integer.parseInt((args[1])));
+			if(!(ramDriver.GetFlags(Integer.parseInt("00000001", 2)) == Integer.parseInt("00000001", 2))) {
+				return ramDriver.SetRam(Integer.parseInt(args[0]), (char)Integer.parseInt((args[1])));
+			} else {
+				return RAM_RESULT.KERNEL_MODE_ERROR;
+			}
+		} else if(call.equalsIgnoreCase("setvideoram")) {
+			GraphicsDriver graphicsDriver = (GraphicsDriver)kernel.GetDriver(GraphicsDriver.class);
+			RAMDriver ramDriver = (RAMDriver)kernel.GetDriver(RAMDriver.class);
+			if(!(ramDriver.GetFlags(Integer.parseInt("00000001", 2)) == Integer.parseInt("00000001", 2))) {
+				return graphicsDriver.SetVideoRam(Integer.parseInt(args[0]), (char)Integer.parseInt((args[1])));
+			} else {
+				return RAM_RESULT.KERNEL_MODE_ERROR;
 			}
 		}
 		return SYSTEM_RESULT.UNKNOWN_CALL;
@@ -82,8 +92,14 @@ public class Kernel {
 	public static int SystemCallValue(String call, String[] args) {
 		if(call.equalsIgnoreCase("getram")) {
 			RAMDriver ramDriver = (RAMDriver)kernel.GetDriver(RAMDriver.class);
-			if(ramDriver.GetFlags(0x00000001) == 0x00000000) {
+			if(!(ramDriver.GetFlags(Integer.parseInt("00000001", 2)) == Integer.parseInt("00000001", 2))) {
 				return ramDriver.GetRam(Integer.parseInt(args[0]));
+			}
+		} else if(call.equalsIgnoreCase("getvideoram")) {
+			RAMDriver ramDriver = (RAMDriver)kernel.GetDriver(RAMDriver.class);
+			GraphicsDriver graphicsDriver = (GraphicsDriver)kernel.GetDriver(GraphicsDriver.class);
+			if(!(ramDriver.GetFlags(Integer.parseInt("00000001", 2)) == Integer.parseInt("00000001", 2))) {
+				return graphicsDriver.GetVideoRam(Integer.parseInt(args[0]));
 			}
 		}
 		return -1;

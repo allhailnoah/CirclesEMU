@@ -4,11 +4,11 @@ public class RandomAccessMemory {
 	
 	//Quite small, but results in compatibility with older models
 	public int MAX_BYTES = 64;
-	public byte[] ram = new byte[MAX_BYTES];
-	public byte[] page_owner = new byte[MAX_BYTES];
+	public char[] ram = new char[MAX_BYTES];
+	public char[] page_owner = new char[MAX_BYTES];
 	public int free_pages = MAX_BYTES;
 		
-	public byte flags_register = 0x00000000;
+	public char flags_register = (char) Integer.parseInt("00000000", 2);
 		
 	//Start the GPU
 	public RandomAccessMemory() {

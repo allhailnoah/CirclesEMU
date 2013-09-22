@@ -12,7 +12,7 @@ public class GraphicsProcessingUnit extends JFrame implements Runnable {
 	
 	//Quite small, but results in compatibility with older models
 	public int MAX_BYTES = 64;
-	public byte[] video_ram = new byte[MAX_BYTES];
+	public char[] video_ram = new char[MAX_BYTES];
 	
 	//Start the GPU
 	public GraphicsProcessingUnit() {
@@ -35,7 +35,7 @@ public class GraphicsProcessingUnit extends JFrame implements Runnable {
 			for (int x = 0; x < 8; x++) {
 				for (int y = 0; y < 8; y++) {
 					int cellId = x*8 + y;
-					System.out.print(video_ram[cellId]);
+					System.out.print(Integer.toBinaryString(video_ram[cellId]));
 					if (video_ram[cellId] > 0) {
 						g.setColor(Color.black);
 						g.fillRect(x*100, y*100, 100, 100);
@@ -53,13 +53,15 @@ public class GraphicsProcessingUnit extends JFrame implements Runnable {
 	//GPU used to act as an interpreter... NOPE.JPG
 	@Override
 	public void run() {
-		repaint();
-		System.out.println("test");
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		while(true) {
+			repaint();
+			System.out.println("test");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

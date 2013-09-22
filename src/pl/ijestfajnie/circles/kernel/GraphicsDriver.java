@@ -20,7 +20,9 @@ public class GraphicsDriver extends Driver {
         gpu.setLocationRelativeTo(null);
         gpu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gpu.setVisible(true);
-        gpu.run();
+        new Thread(gpu).start();
+        
+        //gpu.video_ram[0] = (char) Integer.parseInt("11111111", 2);
 	}
 
 	@Override
@@ -28,7 +30,7 @@ public class GraphicsDriver extends Driver {
 		// TODO Auto-generated method stub
 	}
 	
-	public GRAPHICS_RESULT SetVideoRam(byte value, int index) {
+	public GRAPHICS_RESULT SetVideoRam(int index, char value) {
 		if(index < 0 || index > gpu.MAX_BYTES - 1) {
 			return GRAPHICS_RESULT.INDEX_OUT_OF_BOUNDS;
 		}
@@ -36,9 +38,9 @@ public class GraphicsDriver extends Driver {
 		return GRAPHICS_RESULT.OK;
 	}
 	
-	public byte GetVideoRam(int index) {
+	public char GetVideoRam(int index) {
 		if(index < 0 || index > gpu.MAX_BYTES - 1) {
-			return -1;
+			return 255;
 		}
 		return gpu.video_ram[index];
 	}
