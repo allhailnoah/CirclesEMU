@@ -115,9 +115,6 @@ public class MichieASM {
 					}
 				}
 				break;
-			case CircleCommands.CMD_LOP:
-				currentPointer = -1;
-				break;
 			default:
 				DebugManager.debug(4);
 				break;

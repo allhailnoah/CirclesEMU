@@ -11,7 +11,6 @@ public final class CircleCommands {
 	public final static String CMD_SST = "01000"; //sets screen memory field
 	public final static String CMD_SAD = "01001"; //add to screen memory
 	public final static String CMD_SSU = "01010"; //subtract from screen memory
-	public final static String CMD_LOP = "11111";
 	public final class ConditionType {
 		public final static String CND_EQL = "00001"; //equals
 		public final static String CND_MOR = "00010"; //more than

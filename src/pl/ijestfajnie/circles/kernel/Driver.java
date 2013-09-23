@@ -1,8 +1,8 @@
 package pl.ijestfajnie.circles.kernel;
 
-public abstract class Driver {
+public interface Driver {
 	
-	public abstract void Load();
-	public abstract void Unload();
+	public void Load();
+	public void Unload();
 
 }

@@ -2,7 +2,7 @@ package pl.ijestfajnie.circles.kernel;
 
 import pl.ijestfajnie.circles.emulator.RandomAccessMemory;
 
-public class RAMDriver extends Driver {
+public class RAMDriver implements Driver {
 
 	private RandomAccessMemory ram;
 	
@@ -11,13 +11,11 @@ public class RAMDriver extends Driver {
 		NOT_ENOUGH_MEMORY, KERNEL_MODE_ERROR;
 	}
 	
-	@Override
 	public void Load() {
 		//Boot the GPU
 		ram = new RandomAccessMemory();
 	}
 
-	@Override
 	public void Unload() {
 		// TODO Auto-generated method stub
 	}

@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 import pl.ijestfajnie.circles.emulator.GraphicsProcessingUnit;
 
-public class GraphicsDriver extends Driver {
+public class GraphicsDriver implements Driver {
 
 	private GraphicsProcessingUnit gpu;
 	
@@ -12,7 +12,6 @@ public class GraphicsDriver extends Driver {
 		OK, INDEX_OUT_OF_BOUNDS, VALUE_TOO_HIGH, GPU_NOT_FOUND;
 	}
 	
-	@Override
 	public void Load() {
 		//Boot the GPU
 		gpu = new GraphicsProcessingUnit();
@@ -25,7 +24,6 @@ public class GraphicsDriver extends Driver {
         //gpu.video_ram[0] = (char) Integer.parseInt("11111111", 2);
 	}
 
-	@Override
 	public void Unload() {
 		// TODO Auto-generated method stub
 	}
