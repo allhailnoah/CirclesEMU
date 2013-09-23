@@ -116,7 +116,6 @@ public class MichieASM {
 				}
 				break;
 			default:
-				DebugManager.debug(4);
 				break;
 		}
 		return currentPointer;

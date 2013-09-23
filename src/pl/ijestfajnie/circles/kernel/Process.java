@@ -31,7 +31,7 @@ public class Process implements Runnable {
 		for (; currentPointer < cartridge.length; currentPointer++) {
 			currentPointer = MichieASM.parse(id, cartridge, currentPointer);
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(1);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
